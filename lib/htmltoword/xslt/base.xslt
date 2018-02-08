@@ -30,13 +30,13 @@
     <xsl:comment>
       KNOWN BUGS:
       div
-        h2
-        div
-          textnode (WONT BE WRAPPED IN A W:P)
-          div
-            table
-            span
-              text
+      h2
+      div
+      textnode (WONT BE WRAPPED IN A W:P)
+      div
+      table
+      span
+      text
     </xsl:comment>
     <xsl:apply-templates/>
   </xsl:template>
@@ -157,11 +157,19 @@
             <xsl:otherwise>
               <w:p>
                 <w:pPr>
-                  <w:pStyle w:val="ListParagraph"></w:pStyle>
+                  <w:pStyle w:val="ListParagraph"/>
+                  <w:tabs>
+                    <w:tab w:val="start" w:leader="dot" w:pos="50040"/>
+                  </w:tabs>
                   <w:numPr>
-                    <w:ilvl w:val="{$ilvl}"/>
-                    <w:numId w:val="{$global_level}"/>
+                    <w:ilvl w:val="0"/>
+                    <w:numId w:val="0"/>
+
+                    <w:r>
+                      <w:t xml:space="preserve">&#009;• </w:t>
+                    </w:r>
                   </w:numPr>
+
                 </w:pPr>
                 <xsl:apply-templates/>
               </w:p>
@@ -187,18 +195,18 @@
     |b[not(ancestor::td) and not(ancestor::li) and (preceding-sibling::h1 or preceding-sibling::h2 or preceding-sibling::h3 or preceding-sibling::h4 or preceding-sibling::h5 or preceding-sibling::h6 or preceding-sibling::table or preceding-sibling::p or preceding-sibling::ol or preceding-sibling::ul or preceding-sibling::div or following-sibling::h1 or following-sibling::h2 or following-sibling::h3 or following-sibling::h4 or following-sibling::h5 or following-sibling::h6 or following-sibling::table or following-sibling::p or following-sibling::ol or following-sibling::ul or following-sibling::div)]
     |u[not(ancestor::td) and not(ancestor::li) and (preceding-sibling::h1 or preceding-sibling::h2 or preceding-sibling::h3 or preceding-sibling::h4 or preceding-sibling::h5 or preceding-sibling::h6 or preceding-sibling::table or preceding-sibling::p or preceding-sibling::ol or preceding-sibling::ul or preceding-sibling::div or following-sibling::h1 or following-sibling::h2 or following-sibling::h3 or following-sibling::h4 or following-sibling::h5 or following-sibling::h6 or following-sibling::table or following-sibling::p or following-sibling::ol or following-sibling::ul or following-sibling::div)]">
     <xsl:comment>
-        In the following situation:
+      In the following situation:
 
-        div
-          h2
-          span
-            textnode
-            span
-              textnode
-          p
+      div
+      h2
+      span
+      textnode
+      span
+      textnode
+      p
 
-        The div template will not create a w:p because the div contains a h2. Therefore we need to wrap the inline elements span|a|small in a p here.
-      </xsl:comment>
+      The div template will not create a w:p because the div contains a h2. Therefore we need to wrap the inline elements span|a|small in a p here.
+    </xsl:comment>
     <w:p>
       <xsl:choose>
         <xsl:when test="self::a[starts-with(@href, 'http://') or starts-with(@href, 'https://')]">
@@ -219,15 +227,15 @@
 
   <xsl:template match="text()[not(parent::li) and not(parent::td) and not(parent::pre) and (preceding-sibling::h1 or preceding-sibling::h2 or preceding-sibling::h3 or preceding-sibling::h4 or preceding-sibling::h5 or preceding-sibling::h6 or preceding-sibling::table or preceding-sibling::p or preceding-sibling::ol or preceding-sibling::ul or preceding-sibling::div or following-sibling::h1 or following-sibling::h2 or following-sibling::h3 or following-sibling::h4 or following-sibling::h5 or following-sibling::h6 or following-sibling::table or following-sibling::p or following-sibling::ol or following-sibling::ul or following-sibling::div)]">
     <xsl:comment>
-        In the following situation:
+      In the following situation:
 
-        div
-          h2
-          textnode
-          p
+      div
+      h2
+      textnode
+      p
 
-        The div template will not create a w:p because the div contains a h2. Therefore we need to wrap the textnode in a p here.
-      </xsl:comment>
+      The div template will not create a w:p because the div contains a h2. Therefore we need to wrap the textnode in a p here.
+    </xsl:comment>
     <w:p>
       <w:r>
         <w:t xml:space="preserve"><xsl:value-of select="."/></w:t>
@@ -237,8 +245,8 @@
 
   <xsl:template match="span[contains(concat(' ', @class, ' '), ' h ')]">
     <xsl:comment>
-        This template adds MS Word highlighting ability.
-      </xsl:comment>
+      This template adds MS Word highlighting ability.
+    </xsl:comment>
     <xsl:variable name="color">
       <xsl:choose>
         <xsl:when test="./@data-style='pink'">magenta</xsl:when>
