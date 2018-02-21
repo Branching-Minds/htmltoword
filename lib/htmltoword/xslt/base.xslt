@@ -89,14 +89,51 @@
     <xsl:apply-templates />
   </xsl:template>
 
-  <!-- TODO: make this prettier. Headings shouldn't enter in template from L51 -->
-  <xsl:template match="body/h1|body/h2|body/h3|body/h4|body/h5|body/h6|h1|h2|h3|h4|h5|h6">
-    <xsl:variable name="length" select="string-length(name(.))"/>
+  <xsl:template match="body/h1|h1">
     <w:p>
-      <w:pPr>
-        <w:pStyle w:val="Heading{substring(name(.),$length)}"/>
-      </w:pPr>
       <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:sz w:val="56"/>
+          <w:szCs w:val="56"/>
+        </w:rPr>
+        <w:t xml:space="preserve"><xsl:value-of select="."/></w:t>
+      </w:r>
+    </w:p>
+  </xsl:template>
+
+  <xsl:template match="body/h2|h2">
+    <w:p>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="36"/>
+          <w:szCs w:val="36"/>
+        </w:rPr>
+        <w:t xml:space="preserve"><xsl:value-of select="."/></w:t>
+      </w:r>
+    </w:p>
+  </xsl:template>
+
+  <xsl:template match="body/h3|h3">
+    <w:p>
+      <w:r>
+        <w:rPr>
+          <w:b/>
+          <w:sz w:val="28"/>
+          <w:szCs w:val="28"/>
+        </w:rPr>
+        <w:t xml:space="preserve"><xsl:value-of select="."/></w:t>
+      </w:r>
+    </w:p>
+  </xsl:template>
+
+  <xsl:template match="body/h4|h4">
+    <w:p>
+      <w:r>
+        <w:rPr>
+          <w:sz w:val="28"/>
+          <w:szCs w:val="28"/>
+        </w:rPr>
         <w:t xml:space="preserve"><xsl:value-of select="."/></w:t>
       </w:r>
     </w:p>
@@ -158,19 +195,15 @@
               <w:p>
                 <w:pPr>
                   <w:pStyle w:val="ListParagraph"/>
-                  <w:tabs>
-                    <w:tab w:val="start" w:leader="dot" w:pos="50040"/>
-                  </w:tabs>
                   <w:numPr>
                     <w:ilvl w:val="0"/>
                     <w:numId w:val="0"/>
-
-                    <w:r>
-                      <w:t xml:space="preserve">&#009;• </w:t>
-                    </w:r>
                   </w:numPr>
-
+                  <w:ind w:left="720"/>
                 </w:pPr>
+                <w:r>
+                  <w:t xml:space="preserve">• </w:t>
+                </w:r>
                 <xsl:apply-templates/>
               </w:p>
             </xsl:otherwise>
