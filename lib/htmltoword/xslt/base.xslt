@@ -382,4 +382,12 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template match="div[contains(concat(' ', @class, ' '), ' -ind ')]">
+    <xsl:variable name="ilvl" select="count(ancestor::ol) + count(ancestor::ul)"></xsl:variable>
+    <w:pPr>
+      <w:ind w:left="{720 * ($ilvl + 1)}"/>
+    </w:pPr>
+    <xsl:apply-templates/>
+  </xsl:template>
+
 </xsl:stylesheet>
